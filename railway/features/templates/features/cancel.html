@@ -1,0 +1,55 @@
+{% extends 'features/srbase.html' %}
+ {%block body%}
+        <div class="tick" style="font-size:25px;color:white;padding-left:250px;padding-top:10px;">
+    <h1 style="padding-top:20px;font-family:sans-seriff; color:white;">Current Reservations:</h1>
+        {%csrf_token%}
+    <div class="container">
+    {% for i in res %}
+        
+
+            Date :{{i.date}}<br/>
+            Train no :{{i.tno}}<br/>
+            PNR :{{i.pnr}}<br/>
+            Src :{{i.src}}<br/>
+            Des :{{i.des}}<br/>
+                            <button class="btn btn-danger" value="{{i.pnr}}" style="float:left;border-radius:50%;" onclick="y(this.value)"type="submit">Cancel</button><br/>
+
+        </div>
+        
+            <br/><br/>
+        {%endfor%}
+        
+        
+
+</div>
+
+
+     <script>
+     function y(vl)
+    {
+
+
+
+        $.ajax({
+            type:'POST',
+            url:'cancel/cn/',
+            data:{
+                    id:vl,
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+
+                  },
+        success:function(data){
+
+            alert("Cancelled Tickets||Amount Refunded:"+data);
+            window.location.href=window.location.href;
+                               }
+            }
+                )
+                
+
+    }
+    
+    </script>
+    <a href="{%url 'home:hom'%}" style="margin-left:80px"><button class="btn btn-primary">Back To Homepage</button></a>
+
+{%endblock%}
